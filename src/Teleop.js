@@ -1,14 +1,9 @@
-import { Component, React } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { CssBaseline, CardActions, Slider } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import StopIcon from '@material-ui/icons/Stop';
-import { ArrowUpward, ArrowDownward, ArrowBack, ArrowForward, FastForwardRounded, FastRewindRounded } from '@material-ui/icons';
+import { React, Component } from 'react';
+import { withStyles, Typography, Grid, Paper, CssBaseline, CardActions, Slider, Button } from '@material-ui/core';
+import { ArrowUpward, ArrowDownward, ArrowBack, ArrowForward, FastForwardRounded, FastRewindRounded, Stop, PlayArrow } from '@material-ui/icons';
 import teleop from './image/teleop-icon.ico';
+import Title from './Title';
+import axios from 'axios';
 
 const styles = theme => ({
     root: {
@@ -47,33 +42,119 @@ class Teleop extends Component {
         this.state = {
             buttonClick: false,
             value: 0.1,
-        }
+        };
+        this.handleButtonClick = this.handleButtonClick.bind(this);
+        this.handleButtonClose = this.handleButtonClose.bind(this);
+        this.handleInitTeleop = this.handleInitTeleop.bind(this);
+        this.handlestopTeleop = this.handlestopTeleop.bind(this);
+        this.handledown = this.handledown.bind(this);
+        this.handleup = this.handleup.bind(this);
+        this.handleright = this.handleright.bind(this);
+        this.handleleft = this.handleleft.bind(this);
+        this.handleChangeSlider = this.handleChangeSlider.bind(this);
+        this.handleUpSpeed = this.handleUpSpeed.bind(this);
+        this.handleDownSpeed = this.handleDownSpeed.bind(this);
     };
 
     handleButtonClick = () => {
         console.log('Teleop activated');
         this.setState({ buttonClick: true });
+        this.handleInitTeleop();
     };
 
     handleButtonClose = () => {
         console.log("Teleop stopped");
         this.setState({ buttonClick: false });
+        this.handlestopTeleop();
     };
 
-    handledown = () => {
-        console.log("Down pressed");
+    handleInitTeleop() {
+        const teleop = {
+            robotname: 'robot1',
+            speed: this.state.value,
+        };
+        console.log(teleop);
+        axios.post(`/teleop/initTeleop`, teleop)
+            .then(res => {
+                console.log('Initiating Teleop', res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
     };
 
-    handleup = () => {
-        console.log("Up pressed");
+    handlestopTeleop() {
+        const teleop = {
+            robotname: 'robot1',
+        };
+        console.log(teleop);
+        axios.post(`/teleop/stopTeleop`, teleop)
+            .then(res => {
+                console.log('Stopping Teleop', res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
     };
 
-    handleright = () => {
-        console.log("Right pressed");
+    handledown() {
+        const teleop = {
+            robotname: 'robot1',
+            speed: this.state.value,
+        };
+        console.log(teleop);
+        axios.post(`/teleop/down`, teleop)
+            .then(res => {
+                console.log("Down pressed", res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
+    };
+
+    handleup() {
+        const teleop = {
+            robotname: 'robot1',
+            speed: this.state.value,
+        };
+        console.log(teleop);
+        axios.post(`/teleop/up`, teleop)
+            .then(res => {
+                console.log("Up pressed", res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
+    };
+
+    handleright() {
+        const teleop = {
+            robotname: 'robot1',
+            speed: this.state.value,
+        };
+        console.log(teleop);
+        axios.post(`/teleop/right`, teleop)
+            .then(res => {
+                console.log("Right pressed", res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
     };
 
     handleleft = () => {
-        console.log("Left pressed");
+        const teleop = {
+            robotname: 'robot1',
+            speed: this.state.value,
+        };
+        console.log(teleop);
+        axios.post(`/teleop/left`, teleop)
+            .then(res => {
+                console.log("Left pressed", res);
+            })
+            .catch(err => {
+                console.log(`Error: `, err);
+            });
     };
 
     handleChangeSlider = (event, newValue) => {
@@ -82,15 +163,13 @@ class Teleop extends Component {
     };
 
     handleUpSpeed = () => {
-        // this.setState({value: this.state.value + 0.1});
         console.log("Increasing speed: ", this.state.value + 0.1);
-        this.setState({value: (this.state.value + 0.1)});
+        this.setState({ value: (this.state.value + 0.1) });
     };
 
     handleDownSpeed = () => {
-        // this.setState({value: this.state.value - 0.1});
         console.log("Decreasing speed: ", this.state.value - 0.1);
-        this.setState({value: (this.state.value - 0.1)});
+        this.setState({ value: (this.state.value - 0.1) });
     }
 
 
@@ -119,13 +198,15 @@ class Teleop extends Component {
             <div className={classes.root}>
                 <CssBaseline />
                 <Grid container spacing={3}>
-                    <Typography component="h2" variant="h6" color="primary" gutterBottom={false} align="center">
-                        <img className={classes.button} src={teleop} width="28" alt="teleop-control" align="center" />
-                        Teleop Control
-                    </Typography>
                     <Grid item xs={12}>
                         <Paper>
-                            <div style={{ float: 'center' }}>
+                            <div style={{ float: 'left' }}>
+                                <br />
+                                <Title> &nbsp;
+                                    <img className={classes.button} src={teleop} width="28" alt="teleop-control" align="center" />
+                                    &nbsp; Teleop Control
+                                </Title>
+                                <br />
                                 <CardActions align='center'>
                                     <Button
                                         variant="outlined"
@@ -133,7 +214,7 @@ class Teleop extends Component {
                                         className={classes.button}
                                         onClick={this.handleButtonClick}
                                     >
-                                        <PlayArrowIcon />
+                                        <PlayArrow />
                                     </Button>
                                     <Button
                                         variant="outlined"
@@ -141,7 +222,7 @@ class Teleop extends Component {
                                         className={classes.button}
                                         onClick={this.handleButtonClose}
                                     >
-                                        <StopIcon />
+                                        <Stop />
                                     </Button>
                                 </CardActions>
                             </div>
@@ -194,12 +275,14 @@ class Teleop extends Component {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Typography className={classes.title} align='left'>
-                                        <b>&nbsp;SPEED</b>
+                                    <Typography className={classes.title} align='center' component='h5' variant='h6'>
+                                        <br /><b>&nbsp;SPEED</b><br />
                                     </Typography>
-                                    <Grid container justify='center'>
-                                        <Grid item>
-                                            <Button
+                                    <br />
+                                    <Grid container justify='center' spacing={1}>
+                                        <Grid item xs={3}>
+                                            &nbsp;
+                                                <Button
                                                 variant="outlined"
                                                 color="default"
                                                 className={classes.button}
@@ -207,23 +290,28 @@ class Teleop extends Component {
                                             >
                                                 <FastRewindRounded />
                                             </Button>
+                                            &nbsp;
                                         </Grid>
-                                        <Grid item xs>
-                                            <Slider
+                                        <Grid item xs={3}>
+                                            &nbsp;
+                                                <Slider
                                                 value={this.state.value}
                                                 onChange={this.handleChangeSlider}
                                                 aria-labelledby="continuous-slider"
                                                 step={0.1}
                                                 getAriaValueText={valuetext}
                                                 marks={marks}
-                                                scaleLength={0.5}
+                                                scalelength={0.5}
                                                 max={1}
                                                 valueLabelDisplay="auto"
                                                 className={classes.button}
+                                                color="secondary"
                                             />
+                                            &nbsp;
                                         </Grid>
-                                        <Grid item>
-                                            <Button
+                                        <Grid item xs={3}>
+                                            &nbsp;
+                                                <Button
                                                 variant="outlined"
                                                 color="default"
                                                 className={classes.button}
@@ -231,6 +319,7 @@ class Teleop extends Component {
                                             >
                                                 <FastForwardRounded />
                                             </Button>
+                                                &nbsp;
                                         </Grid>
                                     </Grid>
                                 </div>
