@@ -1,9 +1,7 @@
 import { React, Component } from 'react';
-import { CssBaseline, Grid, withStyles, Card, CardMedia, Button } from '@material-ui/core';
+import { CssBaseline, Grid, withStyles, Card} from '@material-ui/core';
 import Title from './Title';
-import thermalImage from './image/thermal-image.jpg';
 import camera from './image/camera-icon.ico';
-import Webcam from 'react-webcam';
 
 const styles = theme => ({
     root: {
@@ -74,20 +72,9 @@ class ImageStream extends Component {
                                     &nbsp; Image Stream
                                 </Title>
                                 <br /> &nbsp;&nbsp;
-                                {this.state.startStream && <div align="center">
-                                    <Webcam audio={false} ref={this.setRef} />
+                                <div align="center">
+                                     <img src="http://10.226.222.134:8000/"  width="1280" height="480" alt="ImageStream" />
                                 </div>
-                                }
-                                <br /> <br /> &nbsp;&nbsp;
-                                <Button variant="outlined" className={classes.button} onClick={this.handleStartStreaming}>Start streaming</Button>
-                                 &nbsp;&nbsp;
-                                <Button variant="outlined" className={classes.button} onClick={this.stop}>Stop streaming</Button>
-                                {/* <CardMedia
-                                    component="img"
-                                    alt="thermal-scanner"
-                                    image={thermalImage}
-                                    title="Thermal Scanner"
-                                /> */}
                                 <br /> <br />
                             </div>
                         </Card>

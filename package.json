@@ -15,7 +15,7 @@
     "react-webcam": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
-  "proxy": "http://10.226.223.167:1337/",
+  "proxy": "http://10.226.223.161:1337/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
